@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\CheckIfUploadOrphanJob;
 use DB;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;

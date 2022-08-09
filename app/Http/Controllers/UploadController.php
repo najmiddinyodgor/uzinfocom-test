@@ -21,7 +21,7 @@ final class UploadController extends Controller
   {
     return Response::paginate(
       ListingService::paginate(auth()->user()),
-      fn(Collection $collection) => UserUploadResource::collection($collection)
+      fn(array $collection) => UserUploadResource::collection($collection)
     );
   }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\CheckIfUploadOrphanJob;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -54,5 +55,13 @@ class UserUpload extends Model
       'upload_id'
     );
   }
+
   // relations
+
+  public function delete()
+  {
+    CheckIfUploadOrphanJob::dispatch($this->upload_id)->delay(now()->addMinutes(5));
+
+    return parent::delete();
+  }
 }

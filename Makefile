@@ -1,4 +1,4 @@
-init: docker-down docker-build docker-up migrate db-seed
+init: docker-down docker-build docker-up migrate db-seed queue-listen
 
 docker-build:
 	docker-compose build
@@ -20,6 +20,12 @@ db-seed:
 
 test:
 	docker-compose run --rm php php artisan test
+
+clear-orphans:
+	docker-compose run --rm php php artisan clear:orphan-uploads
+
+queue-listen:
+	docker-compose run --rm php php artisan queue:listen -q
 
 generate-helpers:
 	docker-compose run --rm php php artisan ide-helper:generate

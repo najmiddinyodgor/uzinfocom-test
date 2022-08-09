@@ -48,7 +48,7 @@ class AuthServiceProvider extends ServiceProvider
     });
 
     Gate::define(Rule::CAN_UPLOAD->value, function (User $user) {
-      return $user->hasRole(
+      return $user->hasAnyRole(
         Role::ADMIN->value,
         Role::USER->value
       );

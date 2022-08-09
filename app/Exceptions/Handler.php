@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
     $this->renderable(function (Throwable $e) {
       return match (get_class($e)) {
         TokenExpiredException::class, JWTException::class, AuthenticationException::class => Response::error(null, ResponseStatus::AUTH_REQUIRED->value),
-        default => Response::error()
+        default => Response::error($e->getMessage())
       };
     });
   }
