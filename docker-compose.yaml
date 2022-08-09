@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/app
+    networks:
+      - default
+
+  php:
+    build:
+      context: docker/php
+    volumes:
+      - ./:/app
+    networks:
+      - default
+
+  mysql:
+    build:
+        context: docker/mysql
+    restart: unless-stopped
+    tty: true
+    environment:
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+    volumes:
+      - ./docker/storage/mysql:/var/lib/mysql

@@ -1,0 +1,4 @@
+*
+unique-uploads
+!public/
+!.gitignore
