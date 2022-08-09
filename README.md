@@ -1,4 +1,4 @@
-## Use these commands to:
+## Use these commands:
 
 ``make init`` - initialize project
 
