@@ -6,6 +6,7 @@ use App\Models\UniqueUpload;
 use App\Models\UserUpload;
 use Illuminate\Console\Command;
 use Illuminate\Database\Query\JoinClause;
+use Ramsey\Collection\Collection;
 
 class ClearOrphanUploadsCommand extends Command
 {
@@ -30,12 +31,14 @@ class ClearOrphanUploadsCommand extends Command
    */
   public function handle()
   {
-    $ids = UniqueUpload::query()
-      ->whereNotIn('id', UserUpload::all()->pluck('upload_id'))
-      ->get()
-      ->pluck('id');
-
-    UniqueUpload::destroy($ids);
+    UniqueUpload::chunk(25, function ($uploads) {
+      /** @var UniqueUpload[] $uploads */
+      foreach ($uploads as $upload) {
+        if (!$upload->userUpload()->exists()) {
+          $upload->delete();
+        }
+      }
+    });
 
     return 0;
   }

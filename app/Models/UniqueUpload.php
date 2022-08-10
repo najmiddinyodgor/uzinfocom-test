@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Throwable;
@@ -33,6 +34,9 @@ use Throwable;
  */
 class UniqueUpload extends Model
 {
+  public const RELATION_USER_UPLOAD = 'userUpload';
+  public const RELATION_USERS = 'users';
+
   protected $guarded = [];
 
   // relations
@@ -43,6 +47,14 @@ class UniqueUpload extends Model
       'user_uploads',
       'upload_id',
       'user_id'
+    );
+  }
+
+  public function userUpload(): HasMany
+  {
+    return $this->hasMany(
+      UserUpload::class,
+      'upload_id'
     );
   }
 
